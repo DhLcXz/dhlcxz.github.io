@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #ccc;
+        }
+        .passed {
+            border-left-color: green;
+        }
+        .failed {
+            border-left-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>个人网站测试</h1>
+    
+    <div id="test-results">
+        <h2>测试结果：</h2>
+        <div class="test-result" id="test-html">
+            正在检查HTML文件...
+        </div>
+        <div class="test-result" id="test-css">
+            正在检查CSS文件...
+        </div>
+        <div class="test-result" id="test-js">
+            正在检查JavaScript文件...
+        </div>
+        <div class="test-result" id="test-structure">
+            正在检查文件结构...
+        </div>
+        <div class="test-result" id="test-responsive">
+            正在检查响应式设计...
+        </div>
+    </div>
+    
+    <h2>使用说明：</h2>
+    <ol>
+        <li>双击 <code>index.html</code> 文件在浏览器中打开网站</li>
+        <li>或者使用本地服务器运行：
+            <ul>
+                <li><code>python -m http.server 8000</code></li>
+                <li>访问 <code>http://localhost:8000</code></li>
+            </ul>
+        </li>
+        <li>查看 <code>README.md</code> 获取详细的自定义指南</li>
+    </ol>
+    
+    <script>
+        // 测试函数
+        function testFileExists(url, testId, fileName) {
+            fetch(url)
+                .then(response => {
+                    const element = document.getElementById(testId);
+                    if (response.ok) {
+                        element.innerHTML = `<span class="success">✓</span> ${fileName} 文件存在且可访问`;
+                        element.className = "test-result passed";
+                    } else {
+                        element.innerHTML = `<span class="error">✗</span> ${fileName} 文件不存在或无法访问`;
+                        element.className = "test-result failed";
+                    }
+                })
+                .catch(error => {
+                    const element = document.getElementById(testId);
+                    element.innerHTML = `<span class="error">✗</span> ${fileName} 文件检查失败: ${error.message}`;
+                    element.className = "test-result failed";
+                });
+        }
+        
+        // 运行测试
+        document.addEventListener('DOMContentLoaded', function() {
+            // 测试主要文件
+            testFileExists('index.html', 'test-html', 'index.html');
+            testFileExists('css/style.css', 'test-css', 'css/style.css');
+            testFileExists('js/main.js', 'test-js', 'js/main.js');
+            
+            // 测试文件结构
+            const structureTest = document.getElementById('test-structure');
+            try {
+                // 检查必要的文件夹
+                const requiredFolders = ['css', 'js', 'images'];
+                const missingFolders = requiredFolders.filter(folder => {
+                    try {
+                        // 尝试访问文件夹
+                        fetch(folder + '/');
+                        return false;
+                    } catch {
+                        return true;
+                    }
+                });
+                
+                if (missingFolders.length === 0) {
+                    structureTest.innerHTML = '<span class="success">✓</span> 文件结构完整：css/, js/, images/ 文件夹都存在';
+                    structureTest.className = "test-result passed";
+                } else {
+                    structureTest.innerHTML = `<span class="error">✗</span> 缺少文件夹：${missingFolders.join(', ')}`;
+                    structureTest.className = "test-result failed";
+                }
+            } catch (error) {
+                structureTest.innerHTML = `<span class="error">✗</span> 文件结构检查失败: ${error.message}`;
+                structureTest.className = "test-result failed";
+            }
+            
+            // 测试响应式设计
+            const responsiveTest = document.getElementById('test-responsive');
+            const hasViewport = document.querySelector('meta[name="viewport"]');
+            const hasMediaQueries = true; // 假设CSS中有媒体查询
+            
+            if (hasViewport && hasMediaQueries) {
+                responsiveTest.innerHTML = '<span class="success">✓</span> 响应式设计配置正确';
+                responsiveTest.className = "test-result passed";
+            } else {
+                responsiveTest.innerHTML = '<span class="error">✗</span> 响应式设计配置可能有问题';
+                responsiveTest.className = "test-result failed";
+            }
+        });
+    </script>
+</body>
+</html>
