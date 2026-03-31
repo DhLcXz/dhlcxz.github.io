@@ -1,0 +1,35 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "title": "欢迎使用个人知识库",
+      "content": "# 欢迎使用个人知识库系统\n\n这是一个完全由您掌控的个人知识管理系统。\n\n## 主要功能\n\n1. **笔记管理** - 创建、编辑、删除笔记\n2. **分类标签** - 使用分类和标签组织内容\n3. **全文搜索** - 快速找到您需要的信息\n4. **响应式设计** - 在手机和电脑上都能完美显示\n\n## 使用说明\n\n- **游客**：可以浏览所有公开笔记\n- **管理员**：输入密码后可以管理笔记\n\n## 技术栈\n\n- 前端：HTML + CSS + JavaScript\n- 后端：Node.js + Express\n- 存储：JSON 文件\n- 部署：GitHub Pages + Vercel\n\n## 开始使用\n\n1. 点击右上角的\"管理笔记\"按钮\n2. 输入管理员密码\n3. 开始创建您的知识库！",
+      "tags": ["欢迎", "指南", "介绍"],
+      "category": "系统指南",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "views": 0
+    },
+    {
+      "id": "2",
+      "title": "Markdown 语法指南",
+      "content": "# Markdown 语法指南\n\nMarkdown 是一种轻量级标记语言，让您能够使用易读易写的纯文本格式编写文档。\n\n## 标题\n\n```markdown\n# 一级标题\n## 二级标题\n### 三级标题\n#### 四级标题\n```\n\n## 文本样式\n\n- **粗体**：`**粗体**` 或 `__粗体__`\n- *斜体*：`*斜体*` 或 `_斜体_`\n- ~~删除线~~：`~~删除线~~`\n- `行内代码`：\\`行内代码\\`\n\n## 列表\n\n### 无序列表\n\n```markdown\n- 项目一\n- 项目二\n  - 子项目\n  - 子项目\n- 项目三\n```\n\n### 有序列表\n\n```markdown\n1. 第一项\n2. 第二项\n   1. 子项\n   2. 子项\n3. 第三项\n```\n\n## 链接和图片\n\n- 链接：`[链接文本](https://example.com)`\n- 图片：`![图片描述](图片地址)`\n\n## 代码块\n\n```javascript\n// JavaScript 代码\nfunction hello() {\n  console.log('Hello, World!');\n}\n```\n\n```python\n# Python 代码\ndef hello():\n    print('Hello, World!')\n```\n\n## 表格\n\n```markdown\n| 姓名 | 年龄 | 职业 |\n|------|------|------|\n| 张三 | 25   | 工程师 |\n| 李四 | 30   | 设计师 |\n```\n\n## 引用\n\n> 这是引用内容\n> 可以有多行\n\n## 水平线\n\n```markdown\n---\n***\n___\n```",
+      "tags": ["Markdown", "语法", "文档"],
+      "category": "技术文档",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "views": 0
+    },
+    {
+      "id": "3",
+      "title": "Git 常用命令",
+      "content": "# Git 常用命令指南\n\nGit 是一个分布式版本控制系统，用于跟踪文件的变化。\n\n## 基础配置\n\n```bash\n# 设置用户名\ngit config --global user.name \"Your Name\"\n\n# 设置邮箱\ngit config --global user.email \"your.email@example.com\"\n\n# 查看配置\ngit config --list\n```\n\n## 创建和克隆仓库\n\n```bash\n# 初始化新仓库\ngit init\n\n# 克隆现有仓库\ngit clone https://github.com/username/repository.git\n```\n\n## 基本工作流\n\n```bash\n# 查看状态\ngit status\n\n# 添加文件到暂存区\ngit add filename.txt\ngit add .  # 添加所有文件\n\n# 提交更改\ngit commit -m \"提交说明\"\n\n# 查看提交历史\ngit log\ngit log --oneline  # 简洁显示\n```\n\n## 分支管理\n\n```bash\n# 查看分支\ngit branch\n\n# 创建分支\ngit branch feature-branch\n\n# 切换分支\ngit checkout feature-branch\ngit switch feature-branch  # Git 2.23+ 推荐\n\n# 创建并切换分支\ngit checkout -b feature-branch\n\n# 合并分支\ngit merge feature-branch\n\n# 删除分支\ngit branch -d feature-branch\n```\n\n## 远程仓库\n\n```bash\n# 添加远程仓库\ngit remote add origin https://github.com/username/repository.git\n\n# 查看远程仓库\ngit remote -v\n\n# 推送到远程\ngit push origin main\n\n# 从远程拉取\ngit pull origin main\n\n# 获取远程更新（不合并）\ngit fetch origin\n```\n\n## 撤销操作\n\n```bash\n# 撤销暂存的文件\ngit reset filename.txt\n\n# 撤销所有暂存的文件\ngit reset\n\n# 撤销提交（保留更改）\ngit reset --soft HEAD~1\n\n# 撤销提交（丢弃更改）\ngit reset --hard HEAD~1\n\n# 恢复文件\ngit checkout -- filename.txt\n```\n\n## 标签\n\n```bash\n# 创建标签\ngit tag v1.0.0\n\n# 创建带注释的标签\ngit tag -a v1.0.0 -m \"版本 1.0.0\"\n\n# 推送标签到远程\ngit push origin v1.0.0\n\n# 推送所有标签\ngit push origin --tags\n```",
+      "tags": ["Git", "版本控制", "命令"],
+      "category": "开发工具",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "views": 0
+    }
+  ],
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}

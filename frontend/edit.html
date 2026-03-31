@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑笔记 | 个人知识库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/edit-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">个人网站</a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#about">关于我</a></li>
+                <li><a href="index.html#skills">技能</a></li>
+                <li><a href="index.html#portfolio">作品</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+                <li><a href="notes.html">知识库</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 编辑页面容器 -->
+    <main class="edit-container">
+        <div class="edit-header">
+            <h1 id="pageTitle">新建笔记</h1>
+            <p>使用Markdown语法编写，支持实时预览</p>
+        </div>
+
+        <!-- 状态消息容器 -->
+        <div id="messageContainer"></div>
+
+        <!-- 编辑表单 -->
+        <form id="noteForm" class="edit-form">
+            <!-- 隐藏字段用于存储笔记ID -->
+            <input type="hidden" id="noteId" value="">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="noteTitle">
+                        <i class="fas fa-heading"></i> 笔记标题 *
+                    </label>
+                    <input type="text" id="noteTitle" placeholder="请输入笔记标题" required>
+                    <div class="form-hint">
+                        <i class="fas fa-info-circle"></i> 标题应简洁明了，便于搜索
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noteCategory">
+                        <i class="fas fa-folder"></i> 分类
+                    </label>
+                    <select id="noteCategory">
+                        <option value="未分类">未分类</option>
+                        <option value="技术文档">技术文档</option>
+                        <option value="学习笔记">学习笔记</option>
+                        <option value="项目记录">项目记录</option>
+                        <option value="生活随笔">生活随笔</option>
+                        <option value="读书笔记">读书笔记</option>
+                        <option value="工作日志">工作日志</option>
+                        <option value="系统指南">系统指南</option>
+                        <option value="开发工具">开发工具</option>
+                    </select>
+                    <div class="form-hint">
+                        <i class="fas fa-info-circle"></i> 选择或输入新分类
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="tagsContainer">
+                    <i class="fas fa-tags"></i> 标签
+                </label>
+                <div class="tags-input-container">
+                    <div id="tagsContainer" class="tags-container">
+                        <!-- 标签将通过JavaScript动态生成 -->
+                    </div>
+                    <input type="text" id="tagsInput" class="tags-input" placeholder="输入标签，按回车或逗号添加">
+                </div>
+                <div class="form-hint">
+                    <i class="fas fa-info-circle"></i> 使用标签组织内容，便于筛选和搜索
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="noteContent">
+                    <i class="fas fa-edit"></i> 笔记内容 *
+                </label>
+                <div class="editor-layout">
+                    <div class="editor-column">
+                        <h3>编辑器</h3>
+                        <!-- 编辑器工具栏将通过JavaScript动态生成 -->
+                        <textarea id="noteContent" placeholder="使用Markdown语法编写笔记内容..." required></textarea>
+                    </div>
+                    
+                    <div class="editor-column">
+                        <div class="preview-header">
+                            <h3>实时预览</h3>
+                            <button type="button" id="previewToggle" class="btn btn-secondary">
+                                <i class="fas fa-eye"></i> 显示预览
+                            </button>
+                        </div>
+                        <div class="markdown-preview">
+                            <div id="previewContent">
+                                <!-- 预览内容将通过JavaScript动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-hint">
+                    <i class="fas fa-info-circle"></i> 支持Markdown语法，包括标题、列表、代码块、链接等
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" id="cancelBtn" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+                <button type="button" id="deleteBtn" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-trash"></i> 删除笔记
+                </button>
+                <button type="submit" id="saveBtn" class="btn btn-primary">
+                    <i class="fas fa-save"></i> 保存笔记
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- 加载覆盖层 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner-large">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>正在处理...</p>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">个人网站</a>
+                    <p>创造优雅的数字体验</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html#home">首页</a></li>
+                        <li><a href="index.html#about">关于我</a></li>
+                        <li><a href="index.html#skills">技能</a></li>
+                        <li><a href="index.html#portfolio">作品</a></li>
+                        <li><a href="index.html#contact">联系</a></li>
+                        <li><a href="notes.html">知识库</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-newsletter">
+                    <h4>订阅更新</h4>
+                    <p>订阅获取最新项目和技术分享</p>
+                    <form id="newsletterForm">
+                        <input type="email" placeholder="输入您的邮箱" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 个人网站. 保留所有权利.</p>
+                <p>设计制作: <span class="highlight">开发者</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- API配置 -->
+    <script>
+        // API基础URL - 部署到Vercel后需要修改为您的实际地址
+        const API_BASE_URL = 'https://your-vercel-app.vercel.app/api';
+        // 本地开发时可以使用：
+        // const API_BASE_URL = 'http://localhost:3000/api';
+    </script>
+
+    <script src="js/main.js"></script>
+    <script src="js/edit-page.js"></script>
+</body>
+</html>

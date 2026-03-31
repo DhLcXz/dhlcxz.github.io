@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人知识库 | 我的学习笔记</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/knowledge-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">个人网站</a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#about">关于我</a></li>
+                <li><a href="index.html#skills">技能</a></li>
+                <li><a href="index.html#portfolio">作品</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+                <li><a href="notes.html" class="knowledge-base-link active">知识库</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 知识库头部 -->
+    <header class="knowledge-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-title">个人知识库</h1>
+                <p class="header-subtitle">记录学习、思考和成长的地方</p>
+                <div class="header-actions">
+                    <button id="newNoteBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> 新建笔记
+                    </button>
+                    <button id="manageNotesBtn" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> 管理笔记
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="搜索笔记...">
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="knowledge-main">
+        <div class="container">
+            <div class="knowledge-layout">
+                <!-- 侧边栏 -->
+                <aside class="knowledge-sidebar">
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-filter"></i> 筛选</h3>
+                        <div class="filter-options">
+                            <div class="filter-group">
+                                <h4>分类</h4>
+                                <div class="filter-list" id="categoryFilter">
+                                    <!-- 分类将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="filter-group">
+                                <h4>标签</h4>
+                                <div class="filter-list" id="tagFilter">
+                                    <!-- 标签将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-chart-bar"></i> 统计</h3>
+                        <div class="stats-info">
+                            <div class="stat-item">
+                                <span class="stat-label">笔记总数</span>
+                                <span class="stat-value" id="totalNotes">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">总浏览量</span>
+                                <span class="stat-value" id="totalViews">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">最后更新</span>
+                                <span class="stat-value" id="lastUpdated">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-info-circle"></i> 使用说明</h3>
+                        <div class="help-info">
+                            <p>• 点击笔记标题查看详情</p>
+                            <p>• 使用搜索框快速查找</p>
+                            <p>• 点击"管理笔记"进行编辑</p>
+                            <p>• 支持Markdown格式</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- 笔记列表区域 -->
+                <section class="knowledge-content">
+                    <div class="content-header">
+                        <h2 id="contentTitle">所有笔记</h2>
+                        <div class="sort-options">
+                            <select id="sortSelect">
+                                <option value="newest">最新优先</option>
+                                <option value="oldest">最旧优先</option>
+                                <option value="title">标题排序</option>
+                                <option value="views">浏览量排序</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- 笔记列表 -->
+                    <div class="notes-list" id="notesList">
+                        <!-- 笔记将通过JavaScript动态生成 -->
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>正在加载笔记...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 空状态 -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-book-open"></i>
+                        <h3>暂无笔记</h3>
+                        <p>还没有创建任何笔记，点击"新建笔记"开始记录吧！</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 笔记详情模态框 -->
+    <div class="modal" id="noteDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalNoteTitle"></h2>
+                <button class="modal-close" id="closeDetailModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="note-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="modalNoteDate"></span>
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-eye"></i>
+                        <span id="modalNoteViews">0</span> 次浏览
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-tag"></i>
+                        <span id="modalNoteTags"></span>
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-folder"></i>
+                        <span id="modalNoteCategory"></span>
+                    </span>
+                </div>
+                <div class="note-content" id="modalNoteContent">
+                    <!-- Markdown内容将在这里渲染 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="editNoteBtn">
+                    <i class="fas fa-edit"></i> 编辑笔记
+                </button>
+                <button class="btn btn-danger" id="deleteNoteBtn">
+                    <i class="fas fa-trash"></i> 删除笔记
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 密码验证模态框 -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>管理员验证</h2>
+                <button class="modal-close" id="closePasswordModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="password-form">
+                    <p>请输入管理员密码以继续操作：</p>
+                    <div class="form-group">
+                        <input type="password" id="adminPassword" placeholder="输入管理员密码">
+                        <div class="form-hint">
+                            <i class="fas fa-info-circle"></i>
+                            默认密码：admin123（部署后请修改）
+                        </div>
+                    </div>
+                    <div class="form-error" id="passwordError" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submitPassword">
+                    验证
+                </button>
+                <button class="btn btn-secondary" id="cancelPassword">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">个人网站</a>
+                    <p>创造优雅的数字体验</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html#home">首页</a></li>
+                        <li><a href="index.html#about">关于我</a></li>
+                        <li><a href="index.html#skills">技能</a></li>
+                        <li><a href="index.html#portfolio">作品</a></li>
+                        <li><a href="index.html#contact">联系</a></li>
+                        <li><a href="notes.html">知识库</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-newsletter">
+                    <h4>订阅更新</h4>
+                    <p>订阅获取最新项目和技术分享</p>
+                    <form id="newsletterForm">
+                        <input type="email" placeholder="输入您的邮箱" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 个人网站. 保留所有权利.</p>
+                <p>设计制作: <span class="highlight">开发者</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- API配置 -->
+    <script>
+        // API基础URL - 部署到Vercel后需要修改为您的实际地址
+        const API_BASE_URL = 'https://your-vercel-app.vercel.app/api';
+        // 本地开发时可以使用：
+        // const API_BASE_URL = 'http://localhost:3000/api';
+        
+        // 管理员密码（前端存储，仅用于UI状态）
+        let adminAuthenticated = false;
+        let adminPassword = '';
+    </script>
+
+    <script src="js/main.js"></script>
+    <script src="js/knowledge-base.js"></script>
+</body>
+</html>
